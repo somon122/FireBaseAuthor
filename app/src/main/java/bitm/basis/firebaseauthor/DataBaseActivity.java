@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +18,8 @@ public class DataBaseActivity extends AppCompatActivity {
     TextView textView;
     EditText editText;
     String refName;
-    String uid;
+    String uId;
+    ListView listView;
 
     private DatabaseReference root_reference;
     private FirebaseUser user;
@@ -28,6 +29,7 @@ public class DataBaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_data_base);
 
 
+        listView = findViewById(R.id.listView_id);
         editText = findViewById(R.id.refName_id);
         textView = findViewById(R.id.texView_id);
 
@@ -42,10 +44,14 @@ public class DataBaseActivity extends AppCompatActivity {
     public void SaveTime(View view) {
 
         String id = root_reference.push().getKey();
-        uid = user.getUid();
-
+        uId = user.getUid();
         long time = System.currentTimeMillis();
-        root_reference.child(uid).child("Event").child(id).setValue(time);
+        String mTime = Long.toString(time);
+
+        DataUpload dataUpload = new DataUpload(id,refName,mTime);
+
+
+        root_reference.child(uId).child("Events").child(id).setValue(dataUpload);
 
 
     }
