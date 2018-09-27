@@ -2,7 +2,7 @@ package bitm.basis.firebaseauthor;
 
 public class DataUpload {
     String uId;
-    String mName;
+    String refName;
     String mTime;
 
     public DataUpload() {
@@ -10,7 +10,7 @@ public class DataUpload {
 
     public DataUpload(String uId, String mName, String mTime) {
         this.uId = uId;
-        this.mName = mName;
+        this.refName = mName;
         this.mTime = mTime;
     }
 
@@ -22,12 +22,12 @@ public class DataUpload {
         this.uId = uId;
     }
 
-    public String getmName() {
-        return mName;
+    public String getRefName() {
+        return refName;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public void setRefName(String refName) {
+        this.refName = refName;
     }
 
     public String getmTime() {
