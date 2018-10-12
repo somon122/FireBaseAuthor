@@ -1,10 +1,13 @@
 package bitm.basis.firebaseauthor;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import bitm.basis.firebaseauthor.TestImage.ImageActivity;
 
 public class DataBaseActivity extends AppCompatActivity {
 
@@ -30,8 +34,9 @@ public class DataBaseActivity extends AppCompatActivity {
     String refName;
     String uId;
     String id;
+    String rowId;
     ListView listView;
-    List<DataUpload>dataList;
+    ArrayList<DataUpload>dataList = new ArrayList<>();
     dataAdapter adapter;
 
     private DatabaseReference root_reference;
@@ -45,31 +50,94 @@ public class DataBaseActivity extends AppCompatActivity {
         listView = findViewById(R.id.mListView_id);
         editText = findViewById(R.id.refName_id);
         textView = findViewById(R.id.texView_id);
-        dataList = new ArrayList<>();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         root_reference = FirebaseDatabase.getInstance().getReference("UserInfo");
 
 
-        root_reference.child(uId).child("Event")
-                .addValueEventListener(new ValueEventListener() {
+        if (user != null){
+
+           uId = user.getUid();
+            root_reference.child(uId).child("Event")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            dataList.clear();
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                DataUpload dataupload = snapshot.getValue(DataUpload.class);
+                                dataList.add(dataupload);
+                            }
+                            adapter = new dataAdapter(getApplicationContext(),dataList);
+                            listView.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                            Toast.makeText(DataBaseActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }else {
+            Toast.makeText(this, "LogIn First", Toast.LENGTH_SHORT).show();
+        }
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    DataUpload dataupload = snapshot.getValue(DataUpload.class);
-                    dataList.add(dataupload);
-                }
-                adapter = new dataAdapter(getApplicationContext(),dataList);
-                listView.setAdapter(adapter);
-            }
+                DataUpload upload = dataList.get(position);
+                rowId = upload.getuId();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DataBaseActivity.this);
+                View view1 = getLayoutInflater().inflate(R.layout.custom_moment,null);
+                final EditText mName = view1.findViewById(R.id.momentNameId);
+                final EditText time = view1.findViewById(R.id.momentTimeId);
+                Button saveButton = view1.findViewById(R.id.momentSaveId);
+                Button showButton = view1.findViewById(R.id.showMomentId);
 
-                Toast.makeText(DataBaseActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                saveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      String mEmail = mName.getText().toString();
+                      String mTime = time.getText().toString();
+                      String mId = root_reference.push().getKey();
+                      Moment moment = new Moment(mId,mEmail,mTime);
+
+                        root_reference.child(uId).child("Event").child(rowId).child("Moment")
+                                .child(mId).setValue(moment).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(DataBaseActivity.this, "success", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                    }
+                });
+                showButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(DataBaseActivity.this,ImageActivity.class);
+                        intent.putExtra("rowId",rowId);
+                        startActivity(intent);
+
+                    }
+                });
+
+
+
+                builder.setView(view1);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return false;
             }
         });
+
+
 
     }
 
@@ -95,6 +163,7 @@ public class DataBaseActivity extends AppCompatActivity {
     }
 
     public void GoToImageActivity(View view) {
+
         startActivity(new Intent(DataBaseActivity.this,ImageActivity.class));
     }
 }

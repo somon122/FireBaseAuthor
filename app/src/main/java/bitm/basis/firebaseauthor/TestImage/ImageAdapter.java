@@ -1,4 +1,4 @@
-package bitm.basis.firebaseauthor;
+package bitm.basis.firebaseauthor.TestImage;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,15 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import bitm.basis.firebaseauthor.R;
 
 public class ImageAdapter extends ArrayAdapter<Upload> {
     List<Upload>imageList = new ArrayList<>();
@@ -38,9 +38,8 @@ public class ImageAdapter extends ArrayAdapter<Upload> {
         ImageView imageView = convertView.findViewById(R.id.custom_image_id);
         final Upload upload = imageList.get(position);
 
-        Toast.makeText(mContext, upload.getmImageUri(), Toast.LENGTH_SHORT).show();
         nameEditText.setText(upload.getmName());
-        Picasso.get().load(upload.getmImageUri()).placeholder(R.drawable.ic_linked_camera).into(imageView);
+        Picasso.with(mContext).load(upload.getmImageUri()).placeholder(R.drawable.ic_linked_camera).into(imageView);
 
 
         return convertView;

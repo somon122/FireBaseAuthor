@@ -1,4 +1,4 @@
-package bitm.basis.firebaseauthor;
+package bitm.basis.firebaseauthor.TestImage;
 
 public class Upload {
 

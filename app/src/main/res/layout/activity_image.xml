@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".ImageActivity">
+    tools:context=".TestImage.ImageActivity">
 
 
     <EditText
@@ -16,33 +17,47 @@
 
 
     <ImageView
+        android:layout_gravity="center"
         android:src="@drawable/ic_linked_camera"
         android:id="@+id/image_id"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp" />
 
     <Button
+        android:layout_marginTop="22dp"
+        android:layout_gravity="center"
         android:onClick="SaveImage"
         android:text="SaveImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="201dp" />
+
+        />
+    <ToggleButton
+        android:onClick="TaggleButton"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button
+        android:layout_marginTop="22dp"
+        android:layout_gravity="center"
+        android:id="@+id/showId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="124dp"
         android:onClick="ShowImage"
         android:text="Show Image" />
 
 
+    <ListView
+        android:id="@+id/mShowListView_id"
+        android:layout_below="@id/showId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
 
 
-</RelativeLayout>
+
+
+</LinearLayout>

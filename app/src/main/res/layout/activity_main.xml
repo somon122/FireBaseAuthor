@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:id="@+id/layoutColorId"
     android:layout_margin="10dp"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -35,14 +36,71 @@
         android:layout_height="wrap_content" />
 
 
-    <Button
-       android:onClick="SaveTime"
+    <TextView
+        android:textSize="30sp"
+        android:text="Your Score is :"
         android:layout_gravity="center"
-        android:textAllCaps="false"
-        android:visibility="gone"
-        android:text="LogIn"
-        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/scoreAdd_id"
+        android:textSize="30sp"
+        android:text=""
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+       android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="SaveTime"
+        android:text="Add Score"
+        android:textAllCaps="false"
+        android:textSize="20sp" />
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+
+  <Button
+      android:onClick="Red"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Red"
+      android:textAllCaps="false"
+      android:textSize="20sp" />
+
+   <Button
+       android:onClick="Green"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Green"
+      android:textAllCaps="false"
+      android:textSize="20sp" />
+
+   <Button
+       android:onClick="Pink"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Pink"
+      android:textAllCaps="false"
+      android:textSize="20sp" />
+
+   <Button
+       android:onClick="Blue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:text="Blue"
+      android:textAllCaps="false"
+      android:textSize="20sp" />
+
+ </LinearLayout>
 
 </LinearLayout>
